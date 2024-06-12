@@ -1,4 +1,4 @@
-using system;
+using System;
 
 namespace CSAI.Net.ActivationFunctions;
 
@@ -8,5 +8,5 @@ public class ActivationFunctionAttribute : Attribute
     public string FunctionName { get; }
 
     public ActivationFunctionAttribute(string functionName)
-        => FunctionName = functionName
+        => FunctionName = functionName;
 }
