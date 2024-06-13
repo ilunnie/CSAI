@@ -16,7 +16,7 @@ public static partial class ActivationFunctions
         {
             var attribute = method.GetCustomAttribute<ActivationFunctionAttribute>();
             var methodParameters = method.GetParameters();
-            if (attribute != null && attribute.FunctionName.ToUpper() == name && methodParameters.Length == parameters.Length + 1)
+            if (attribute != null && attribute.FunctionNames.Select(n => n.ToUpper()).Contains(name) && methodParameters.Length == parameters.Length + 1)
             {
                 var types = methodParameters.Skip(1).Select(p => p.ParameterType).ToArray();
                 var length = parameters.Length;

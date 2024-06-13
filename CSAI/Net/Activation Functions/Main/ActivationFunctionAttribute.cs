@@ -5,8 +5,10 @@ namespace CSAI.Net.ActivationFunctions;
 [AttributeUsage(AttributeTargets.Method)]
 public class ActivationFunctionAttribute : Attribute
 {
-    public string FunctionName { get; }
+    public string[] FunctionNames { get; }
 
     public ActivationFunctionAttribute(string functionName)
-        => FunctionName = functionName;
+        => FunctionNames = new string[]{functionName};
+    public ActivationFunctionAttribute(string[] functionNames)
+        => FunctionNames = functionNames;
 }
