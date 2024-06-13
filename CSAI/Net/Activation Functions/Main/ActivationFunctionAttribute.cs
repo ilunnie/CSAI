@@ -7,8 +7,6 @@ public class ActivationFunctionAttribute : Attribute
 {
     public string[] FunctionNames { get; }
 
-    public ActivationFunctionAttribute(string functionName)
-        => FunctionNames = new string[]{functionName};
-    public ActivationFunctionAttribute(string[] functionNames)
+    public ActivationFunctionAttribute(params string[] functionNames)
         => FunctionNames = functionNames;
 }
