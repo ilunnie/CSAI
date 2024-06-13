@@ -7,7 +7,8 @@ namespace CSAI.Net.Initializers;
 
 public static partial class Initializers
 {
-    public static Func<int, double[]> GetFunction(string name, params object[] parameters)
+    private static Random Random = new Random();
+    public static Func<double> GetFunction(string name, params object[] parameters)
     {
         name = name.ToUpper();
         MethodInfo[] methods = typeof(Initializers).GetMethods();
@@ -18,10 +19,10 @@ public static partial class Initializers
             if (
                 attribute != null && 
                 attribute.InitializerNames.Select(n => n.ToUpper()).Contains(name) &&
-                methodParameters.Length == parameters.Length + 1
+                methodParameters.Length == parameters.Length
                 )
             {
-                var types = methodParameters.Skip(1).Select(p => p.ParameterType).ToArray();
+                var types = methodParameters.Select(p => p.ParameterType).ToArray();
                 var length = parameters.Length;
                 var convertedParams = new object[length];
 
@@ -40,22 +41,16 @@ public static partial class Initializers
                 }
 
                 if (canConvert)
-                    return (int x) =>
-                    {
-                        object[] _parameters = new object[methodParameters.Length];
-                        _parameters[0] = x;
-                        Array.Copy(convertedParams, 0, _parameters, 1, convertedParams.Length);
-                        return (double[])method.Invoke(null, _parameters);
-                    };
+                    return () => (double)method.Invoke(null, convertedParams);
             }
         }
         throw new InvalidInitializer($"Initializer \"{name}\" not found or params invalid");
     }
 
-    public static Func<int, double[]> GetFunction(string name, string parameters)
+    public static Func<double> GetFunction(string name, string parameters)
         => GetFunction(name, parameters.Split(",").Select(s => s.Trim()).ToArray());
 
-    public static Func<int, double[]> FromString(string text)
+    public static Func<double> FromString(string text)
     {
         string[] splitted = text.Split(",").Select(s => s.Trim()).ToArray();
         string name = splitted[0];
@@ -63,6 +58,6 @@ public static partial class Initializers
         return GetFunction(name, paramsArray);
     }
 
-    public static Func<int, double[]> ToInitializer(this string text)
+    public static Func<double> ToInitializer(this string text)
         => FromString(text);
 }
