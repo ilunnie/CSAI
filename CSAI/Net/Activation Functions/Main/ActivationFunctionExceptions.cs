@@ -2,7 +2,7 @@ using System;
 
 namespace CSAI.Net.ActivationFunctions;
 
-public class InvalidActionFunctionName : Exception
+public class InvalidActionFunction : Exception
 {
-    public InvalidActionFunctionName(string message) : base(message) {}
+    public InvalidActionFunction(string message) : base(message) {}
 }
